@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Entrée Mariage</title>
+</head>
+<body style="font-family: Arial; text-align: center; margin-top: 100px;">
+
+    <h1>Information Invité</h1>
+
+    <h2 id="guestName"></h2>
+    <h3 id="guestTable"></h3>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const name = params.get("name");
+        const table = params.get("table");
+
+        document.getElementById("guestName").innerText = "Nom : " + name;
+        document.getElementById("guestTable").innerText = "Table : " + table;
+    </script>
+
+</body>
+</html>

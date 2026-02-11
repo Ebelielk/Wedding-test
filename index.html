@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gestion Invitations Mariage</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body style="font-family: Arial; text-align: center; margin-top: 50px;">
+
+    <h1>Générateur QR - Mariage</h1>
+
+    <input type="text" id="name" placeholder="Nom de l'invité"><br><br>
+    <input type="text" id="table" placeholder="Nom de la table"><br><br>
+
+    <button onclick="generateQR()">Générer QR Code</button>
+
+    <div id="qrcode" style="margin-top: 30px;"></div>
+
+    <script>
+        function generateQR() {
+            let name = document.getElementById("name").value;
+            let table = document.getElementById("table").value;
+
+            let url = "scan.html?name=" + encodeURIComponent(name) + "&table=" + encodeURIComponent(table);
+
+            document.getElementById("qrcode").innerHTML = "";
+
+            new QRCode(document.getElementById("qrcode"), {
+                text: url,
+                width: 200,
+                height: 200
+            });
+        }
+    </script>
+
+</body>
+</html>
