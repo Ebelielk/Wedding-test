@@ -1,36 +1,110 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
-    <title>Gestion Invitations Mariage</title>
+    <meta charset="UTF-8">
+    <title>Invitations Mariage</title>
+
+    <!-- QR Code library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-</head>
-<body style="font-family: Arial; text-align: center; margin-top: 50px;">
 
-    <h1>Générateur QR - Mariage</h1>
-
-    <input type="text" id="name" placeholder="Nom de l'invité"><br><br>
-    <input type="text" id="table" placeholder="Nom de la table"><br><br>
-
-    <button onclick="generateQR()">Générer QR Code</button>
-
-    <div id="qrcode" style="margin-top: 30px;"></div>
-
-    <script>
-        function generateQR() {
-            let name = document.getElementById("name").value;
-            let table = document.getElementById("table").value;
-
-            let url = "https://ebelielk.github.io/Wedding-test/scan.html?name=" + encodeURIComponent(name) + "&table=" + encodeURIComponent(table);
-
-            document.getElementById("qrcode").innerHTML = "";
-
-            new QRCode(document.getElementById("qrcode"), {
-                text: url,
-                width: 200,
-                height: 200
-            });
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f7f3ef;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
-    </script>
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            width: 320px;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #6b4f4f;
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            background: #6b4f4f;
+            color: white;
+            border: none;
+            padding: 12px;
+            width: 100%;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #5a3f3f;
+        }
+
+        #qrcode {
+            margin-top: 20px;
+        }
+
+        .note {
+            font-size: 12px;
+            color: #888;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="card">
+    <h1>Invitation Mariage</h1>
+
+    <input type="text" id="name" placeholder="Nom de l'invité">
+    <input type="text" id="table" placeholder="Nom de la table">
+
+    <button onclick="generateQR()">Générer le QR Code</button>
+
+    <div id="qrcode"></div>
+
+    <div class="note">
+        QR à présenter à l’entrée
+    </div>
+</div>
+
+<script>
+    function generateQR() {
+        let name = document.getElementById("name").value;
+        let table = document.getElementById("table").value;
+
+        if (!name || !table) {
+            alert("Veuillez remplir tous les champs");
+            return;
+        }
+
+        let url = "https://ebelielk.github.io/Wedding-test/scan.html"
+            + "?name=" + encodeURIComponent(name)
+            + "&table=" + encodeURIComponent(table);
+
+        document.getElementById("qrcode").innerHTML = "";
+
+        new QRCode(document.getElementById("qrcode"), {
+            text: url,
+            width: 180,
+            height: 180
+        });
+    }
+</script>
 
 </body>
 </html>

@@ -1,23 +1,76 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
-    <title>Entrée Mariage</title>
+    <meta charset="UTF-8">
+    <title>Accueil Invité</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f7f3ef;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .card {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            width: 320px;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #6b4f4f;
+            margin-bottom: 10px;
+        }
+
+        .info {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+
+        .table {
+            font-size: 22px;
+            font-weight: bold;
+            color: #6b4f4f;
+            margin-top: 20px;
+        }
+
+        .ok {
+            margin-top: 30px;
+            background: #4CAF50;
+            color: white;
+            padding: 10px;
+            border-radius: 6px;
+        }
+    </style>
 </head>
-<body style="font-family: Arial; text-align: center; margin-top: 100px;">
 
-    <h1>Information Invité</h1>
+<body>
 
-    <h2 id="guestName"></h2>
-    <h3 id="guestTable"></h3>
+<div class="card">
+    <h1>Bienvenue 💍</h1>
 
-    <script>
-        const params = new URLSearchParams(window.location.search);
-        const name = params.get("name");
-        const table = params.get("table");
+    <div class="info" id="guestName"></div>
+    <div class="table" id="guestTable"></div>
 
-        document.getElementById("guestName").innerText = "Nom : " + name;
-        document.getElementById("guestTable").innerText = "Table : " + table;
-    </script>
+    <div class="ok">
+        Invité autorisé ✔
+    </div>
+</div>
+
+<script>
+    const params = new URLSearchParams(window.location.search);
+    const name = params.get("name");
+    const table = params.get("table");
+
+    document.getElementById("guestName").innerText = "Nom : " + name;
+    document.getElementById("guestTable").innerText = "Table : " + table;
+</script>
 
 </body>
 </html>
