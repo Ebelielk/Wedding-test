@@ -1,109 +1,135 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <title>Invitations Mariage</title>
+<meta charset="UTF-8">
+<title>Gestion Invitations Mariage</title>
 
-    <!-- QR Code library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f7f3ef;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #f7f3ef;
+    padding: 30px;
+    text-align: center;
+}
 
-        .card {
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            width: 320px;
-            text-align: center;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-        }
+h1 {
+    color: #6b4f4f;
+}
 
-        h1 {
-            color: #6b4f4f;
-            margin-bottom: 20px;
-        }
+input {
+    padding: 10px;
+    margin: 5px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
 
-        input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border-radius: 6px;
-            border: 1px solid #ccc;
-        }
+button {
+    padding: 10px 15px;
+    margin: 5px;
+    border-radius: 6px;
+    border: none;
+    background: #6b4f4f;
+    color: white;
+    cursor: pointer;
+}
 
-        button {
-            background: #6b4f4f;
-            color: white;
-            border: none;
-            padding: 12px;
-            width: 100%;
-            border-radius: 6px;
-            cursor: pointer;
-        }
+button:hover {
+    background: #5a3f3f;
+}
 
-        button:hover {
-            background: #5a3f3f;
-        }
-
-        #qrcode {
-            margin-top: 20px;
-        }
-
-        .note {
-            font-size: 12px;
-            color: #888;
-            margin-top: 10px;
-        }
-    </style>
+.guest-card {
+    background: white;
+    display: inline-block;
+    padding: 15px;
+    margin: 10px;
+    border-radius: 10px;
+    width: 220px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+</style>
 </head>
 
 <body>
 
-<div class="card">
-    <h1>Invitation Mariage</h1>
+<h1>Gestion des Invités 💍</h1>
 
-    <input type="text" id="name" placeholder="Nom de l'invité">
-    <input type="text" id="table" placeholder="Nom de la table">
+<input type="text" id="name" placeholder="Nom de l'invité">
+<input type="text" id="table" placeholder="Nom de la table">
+<br>
+<button onclick="addGuest()">Ajouter Invité</button>
+<button onclick="showGuests()">Voir Liste</button>
+<button onclick="clearGuests()">Réinitialiser</button>
 
-    <button onclick="generateQR()">Générer le QR Code</button>
+<hr>
 
-    <div id="qrcode"></div>
-
-    <div class="note">
-        QR à présenter à l’entrée
-    </div>
-</div>
+<div id="guestList"></div>
 
 <script>
-    function generateQR() {
-        let name = document.getElementById("name").value;
-        let table = document.getElementById("table").value;
 
-        if (!name || !table) {
-            alert("Veuillez remplir tous les champs");
-            return;
-        }
+function getGuests() {
+    return JSON.parse(localStorage.getItem("guests")) || [];
+}
+
+function saveGuests(guests) {
+    localStorage.setItem("guests", JSON.stringify(guests));
+}
+
+function addGuest() {
+    let name = document.getElementById("name").value;
+    let table = document.getElementById("table").value;
+
+    if (!name || !table) {
+        alert("Remplissez tous les champs");
+        return;
+    }
+
+    let guests = getGuests();
+    guests.push({ name, table });
+    saveGuests(guests);
+
+    alert("Invité ajouté !");
+    document.getElementById("name").value = "";
+    document.getElementById("table").value = "";
+}
+
+function showGuests() {
+    let guests = getGuests();
+    let container = document.getElementById("guestList");
+    container.innerHTML = "";
+
+    guests.forEach((guest, index) => {
+
+        let card = document.createElement("div");
+        card.className = "guest-card";
+
+        card.innerHTML = `
+            <div><strong>${guest.name}</strong></div>
+            <div>${guest.table}</div>
+            <div id="qr-${index}"></div>
+        `;
+
+        container.appendChild(card);
 
         let url = "https://ebelielk.github.io/Wedding-test/scan.html"
-            + "?name=" + encodeURIComponent(name)
-            + "&table=" + encodeURIComponent(table);
+            + "?name=" + encodeURIComponent(guest.name)
+            + "&table=" + encodeURIComponent(guest.table);
 
-        document.getElementById("qrcode").innerHTML = "";
-
-        new QRCode(document.getElementById("qrcode"), {
+        new QRCode(document.getElementById(`qr-${index}`), {
             text: url,
-            width: 180,
-            height: 180
+            width: 120,
+            height: 120
         });
-    }
+    });
+}
+
+function clearGuests() {
+    localStorage.removeItem("guests");
+    document.getElementById("guestList").innerHTML = "";
+    alert("Liste réinitialisée");
+}
+
 </script>
 
 </body>
