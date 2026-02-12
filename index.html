@@ -2,135 +2,52 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Gestion Invitations Mariage</title>
-
+<title>Wedding Admin Dashboard</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-
-<style>
-body {
-    font-family: Arial, sans-serif;
-    background: #f7f3ef;
-    padding: 30px;
-    text-align: center;
-}
-
-h1 {
-    color: #6b4f4f;
-}
-
-input {
-    padding: 10px;
-    margin: 5px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-}
-
-button {
-    padding: 10px 15px;
-    margin: 5px;
-    border-radius: 6px;
-    border: none;
-    background: #6b4f4f;
-    color: white;
-    cursor: pointer;
-}
-
-button:hover {
-    background: #5a3f3f;
-}
-
-.guest-card {
-    background: white;
-    display: inline-block;
-    padding: 15px;
-    margin: 10px;
-    border-radius: 10px;
-    width: 220px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-}
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<h1>Gestion des Invités 💍</h1>
+<div class="sidebar">
+    <h2>Wedding Admin 💍</h2>
 
-<input type="text" id="name" placeholder="Nom de l'invité">
-<input type="text" id="table" placeholder="Nom de la table">
-<br>
-<button onclick="addGuest()">Ajouter Invité</button>
-<button onclick="showGuests()">Voir Liste</button>
-<button onclick="clearGuests()">Réinitialiser</button>
+    <input type="text" id="name" placeholder="Nom de l'invité">
+    <select id="table"></select>
 
-<hr>
+    <button onclick="addGuest()">Ajouter / Modifier</button>
+    <button onclick="showGuests()">Actualiser</button>
+    <button onclick="clearGuests()">Réinitialiser</button>
+</div>
 
-<div id="guestList"></div>
+<div class="main">
 
-<script>
+    <div class="stats">
+        <div class="card-stat">
+            <h3>Total Invités</h3>
+            <div id="totalGuests">0</div>
+        </div>
 
-function getGuests() {
-    return JSON.parse(localStorage.getItem("guests")) || [];
-}
+        <div class="card-stat">
+            <h3>Arrivés</h3>
+            <div id="totalArrived">0</div>
+        </div>
+    </div>
 
-function saveGuests(guests) {
-    localStorage.setItem("guests", JSON.stringify(guests));
-}
+    <h3>Recherche</h3>
+    <input type="text" id="searchInput" 
+           placeholder="Rechercher..."
+           onkeyup="showGuests()">
 
-function addGuest() {
-    let name = document.getElementById("name").value;
-    let table = document.getElementById("table").value;
+    <h3>Répartition Tables</h3>
+    <div id="tableCount"></div>
 
-    if (!name || !table) {
-        alert("Remplissez tous les champs");
-        return;
-    }
+    <h3>Liste Invités</h3>
+    <div id="guestList"></div>
 
-    let guests = getGuests();
-    guests.push({ name, table });
-    saveGuests(guests);
+</div>
 
-    alert("Invité ajouté !");
-    document.getElementById("name").value = "";
-    document.getElementById("table").value = "";
-}
-
-function showGuests() {
-    let guests = getGuests();
-    let container = document.getElementById("guestList");
-    container.innerHTML = "";
-
-    guests.forEach((guest, index) => {
-
-        let card = document.createElement("div");
-        card.className = "guest-card";
-
-        card.innerHTML = `
-            <div><strong>${guest.name}</strong></div>
-            <div>${guest.table}</div>
-            <div id="qr-${index}"></div>
-        `;
-
-        container.appendChild(card);
-
-        let url = "https://ebelielk.github.io/Wedding-test/scan.html"
-            + "?name=" + encodeURIComponent(guest.name)
-            + "&table=" + encodeURIComponent(guest.table);
-
-        new QRCode(document.getElementById(`qr-${index}`), {
-            text: url,
-            width: 120,
-            height: 120
-        });
-    });
-}
-
-function clearGuests() {
-    localStorage.removeItem("guests");
-    document.getElementById("guestList").innerHTML = "";
-    alert("Liste réinitialisée");
-}
-
-</script>
+<script src="script.js"></script>
 
 </body>
 </html>
