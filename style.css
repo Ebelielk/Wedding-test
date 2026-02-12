@@ -8,7 +8,7 @@ body {
 /* SIDEBAR */
 .sidebar {
     width: 220px;
-    background: #6b4f4f;
+    background: #3671A8;
     color: white;
     padding: 20px;
     min-height: 100vh;
@@ -43,7 +43,7 @@ body {
 }
 
 .card-stat {
-    background: white;
+    background: #3671A8;
     padding: 20px;
     flex: 1;
     border-radius: 10px;
