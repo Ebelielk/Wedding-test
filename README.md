@@ -75,8 +75,8 @@ No backend server or database is used in this version.
 
 ## 📂 Project Structure
 
-index.html # Admin dashboard
-scan.html # QR scan simulation page
-style.css # Styling
-script.js # Application logic
-README.md
+- index.html # Admin dashboard
+- scan.html # QR scan simulation page
+- style.css # Styling
+- script.js # Application logic
+- README.md
