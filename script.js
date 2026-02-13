@@ -149,7 +149,7 @@ function showGuests() {
 
         list.appendChild(card);
 
-        let url="scan.html?name="+encodeURIComponent(g.name)
+        let url="https://ebelielk.github.io/Wedding-test/scan.html?name="+encodeURIComponent(g.name)
             +"&table="+encodeURIComponent(g.table);
 
         new QRCode(document.getElementById(`qr-${i}`),{
@@ -210,7 +210,7 @@ document.addEventListener("DOMContentLoaded", function() {
         showGuests();
     }
 
-    if (window.location.pathname.includes("scan.html")) {
+    if (window.location.pathname.includes("https://ebelielk.github.io/Wedding-test/scan.html")) {
         handleScan();
     }
 
